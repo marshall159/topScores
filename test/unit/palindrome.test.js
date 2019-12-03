@@ -8,7 +8,27 @@ chai.use(sinonChai);
 const Palindrome = require('../../src/palindrome');
 
 describe('Palindrome', () => {
-  it('passes canary test', () => {
-    expect(true).to.be.true;
+  it('word "bob" is a palindrome', () => {
+    const word = 'bob';
+
+    const result = Palindrome.isPalindrome(word);
+
+    expect(result).to.be.true;
+  });
+
+  it('word "bo" is not a palindrome', () => {
+    const word = 'bo';
+
+    const result = Palindrome.isPalindrome(word);
+
+    expect(result).to.be.false;
+  });
+
+  it('empty string "" is not a palindrome', () => {
+    const word = '';
+
+    const result = Palindrome.isPalindrome(word);
+
+    expect(result).to.be.false;
   });
 });
