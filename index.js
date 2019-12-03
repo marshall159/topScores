@@ -1,6 +1,10 @@
-var express = require('express');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-var app = express();
+const app = express();
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
 
@@ -8,7 +12,19 @@ app.get('/', function(req, res) {
 	res.render('index.html');
 });
 
-var port = 3000;
-app.listen(port, function() {
-	console.log('Server', process.pid, 'listening on port', port);
+app.get('/api/getScores', (req, res, next) => {
+	res.send('Top five scores!');
 });
+
+app.post('/api/submitEntry', (req, res, next) => {
+	res.send('Take all the points!');
+});
+
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+	console.log('Server', process.pid, 'listening on port', PORT);
+});
+
+module.exports = app;
