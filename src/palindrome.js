@@ -1,6 +1,8 @@
 class Palindrome {
   static isPalindrome(word) {
-    return word.length > 0 && word.split('').reverse().join('') === word;
+    word = word.replace(/\s+/g, '');
+    
+    return word.length > 0 && word.toLowerCase().split('').reverse().join('') === word.toLowerCase();
   }
 }
 
