@@ -20,6 +20,7 @@ describe('ScoresController', () => {
   let next;
   let sortedTopFiveScores;
   let scoresModelTopScoresStub
+  let scoresModelAddNewEntryStub;
   let palindromeSpy;
 
   beforeEach(() => {
@@ -44,6 +45,9 @@ describe('ScoresController', () => {
 
     scoresModelTopScoresStub = sinon.stub(ScoresModel, 'getTopScores');
     scoresModelTopScoresStub.returns(sortedTopFiveScores)
+
+    scoresModelAddNewEntryStub = sinon.stub(ScoresModel, 'addNewEntry');
+    scoresModelAddNewEntryStub.returns(4);
 
     palindromeSpy = sinon.spy(Palindrome, 'isPalindrome');
   });
@@ -100,6 +104,27 @@ describe('ScoresController', () => {
 
       expect(res.status).calledOnceWithExactly(400);
       expect(res.json).calledOnceWith({ message: 'Word is not a palindrome' });
+    });
+  });
+
+  describe('#addEntry', () => {
+    it('calls Scoresmodel#addNewEntry to save the entry', () => {
+      req.body.name = 'Aneel';
+      req.body.word = palindrome;
+
+      ScoresController.addEntry(req, res, next);
+
+      expect(scoresModelAddNewEntryStub).calledOnceWith(req.body);
+    });
+
+    it('sends status code 200 and points scored as JSON', () => {
+      req.body.name = 'Aneel';
+      req.body.word = 'toot';
+
+      ScoresController.addEntry(req, res, next);
+
+      expect(res.status).calledOnceWithExactly(200);
+      expect(res.json).calledOnceWith({ points: 4 });
     });
   });
 });

@@ -16,14 +16,16 @@ function calculatePoints(word) {
 }
 
 function addNewEntry(body) {
-  const points = calculatePoints(body.word);
+  const pointsScored = calculatePoints(body.word);
 
   const entry = {
     name: body.name,
-    points,
+    points: pointsScored,
   }
 
   scoreValues.push(entry);
+
+  return pointsScored;
 }
 
 module.exports = {

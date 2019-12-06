@@ -21,6 +21,12 @@ class ScoresController {
 
     return res.status(400).json({ message: 'Word is not a palindrome'});
   }
+
+  static addEntry(req, res, next) {
+    const points = ScoresModel.addNewEntry(req.body);
+
+    res.status(200).json({ 'points': points });
+  }
 }
 
 module.exports = ScoresController;
