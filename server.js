@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const ScoresController = require('./src/scoresController');
+const ErrorHandler = require('./src/errorHandler');
 
 const app = express();
 
@@ -15,5 +16,7 @@ app.get('/', ScoresController.homePage);
 app.get('/api/getScores', ScoresController.getTopScores);
 
 app.post('/api/submitEntry', ScoresController.validateEntry, ScoresController.addEntry);
+
+app.use(ErrorHandler);
 
 module.exports = app;
