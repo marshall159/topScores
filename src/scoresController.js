@@ -25,7 +25,7 @@ class ScoresController {
   static addEntry(req, res, next) {
     const points = ScoresModel.addNewEntry(req.body);
 
-    res.status(200).json({ 'points': points });
+    res.status(200).json({ points });
   }
 }
 

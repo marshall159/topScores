@@ -52,5 +52,19 @@ describe('Routes', () => {
           expect(response.body).to.deep.equal(jsonNotPalindromeMessage);
         })
     });
+
+    it('returns 200 and a JSON message with points scored when word is a palindrome', () => {
+      const pointsScore = { points: 2 };
+
+      return request(app)
+        .post('/api/submitEntry')
+        .set('Accept', 'application/json')
+        .send({ name: 'Aneel', word: 'tt' })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .then(response => {
+          expect(response.body).to.deep.equal(pointsScore);
+        })
+    });
   });
 });

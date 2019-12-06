@@ -14,6 +14,6 @@ app.get('/', ScoresController.homePage);
 
 app.get('/api/getScores', ScoresController.getTopScores);
 
-app.post('/api/submitEntry', ScoresController.validateEntry);
+app.post('/api/submitEntry', ScoresController.validateEntry, ScoresController.addEntry);
 
 module.exports = app;
