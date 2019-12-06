@@ -4,6 +4,8 @@ const { expect } = require('chai');
 const app = require('../../server');
 
 describe('Routes', () => {
+  const jsonNotPalindromeMessage = { message: 'Word is not a palindrome' };
+  
   let sortedTopFiveScores;
 
   beforeEach(() => {
@@ -27,6 +29,19 @@ describe('Routes', () => {
           expect(response.body).to.deep.equal(sortedTopFiveScores);
         })
     });
+  });
 
+  describe('POST /api/submitEntry', () => {
+    it('returns 400 and a JSON message explaining word is not a palindrome', () => {
+      return request(app)
+        .post('/api/submitEntry')
+        .set('Accept', 'application/json')
+        .send({ name: 'Aneel', word: 'car' })
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .then(response => {
+          expect(response.body).to.deep.equal(jsonNotPalindromeMessage);
+        })
+    });
   });
 });
