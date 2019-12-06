@@ -18,8 +18,17 @@ describe('Routes', () => {
     ];
   });
 
+  describe('GET /', () => {
+    it('returns 200 and renders index page', () => {
+      return request(app)
+        .get('/')
+        .expect('Content-Type', /html/)
+        .expect(200)
+    });
+  });
+
   describe('GET /api/getScores', () => {
-    it('returns 200 and returns top five scores JSON', async () => {
+    it('returns 200 and the top five scores JSON', async () => {
       return request(app)
         .get('/api/getScores')
         .set('Accept', 'application/json')
