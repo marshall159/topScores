@@ -54,12 +54,12 @@ describe('Routes', () => {
     });
 
     it('returns 200 and a JSON message with points scored when word is a palindrome', () => {
-      const pointsScore = { points: 2 };
+      const pointsScore = { points: 7 };
 
       return request(app)
         .post('/api/submitEntry')
         .set('Accept', 'application/json')
-        .send({ name: 'Aneel', word: 'tt' })
+        .send({ name: 'Aneel', word: 'racecar' })
         .expect('Content-Type', /json/)
         .expect(200)
         .then(response => {

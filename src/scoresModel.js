@@ -1,4 +1,4 @@
-const scoreValues = [
+const scores = [
   {name: 'Aneel', points: 5},
   {name: 'Bob', points: 6},
   {name: 'Charles', points: 15},
@@ -7,7 +7,7 @@ const scoreValues = [
   {name: 'Fiona', points: 5},
 ];
 
-function getTopScores(scores = scoreValues) {
+function getTopScores() {
   return scores.sort((a, b) => b.points - a.points).slice(0, 5);
 }
 
@@ -23,7 +23,7 @@ function addNewEntry(body) {
     points: pointsScored,
   }
 
-  scoreValues.push(entry);
+  scores.push(entry);
 
   return pointsScored;
 }
