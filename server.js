@@ -16,8 +16,6 @@ app.get('/', function(req, res) {
 
 app.get('/api/getScores', ScoresController.getTopScores);
 
-app.post('/api/submitEntry', (req, res, next) => {
-	res.send('hello');
-});
+app.post('/api/submitEntry', ScoresController.validateEntry);
 
 module.exports = app;
