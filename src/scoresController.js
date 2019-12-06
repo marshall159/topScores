@@ -2,6 +2,10 @@ const ScoresModel = require('./scoresModel');
 const Palindrome = require('./palindrome');
 
 class ScoresController {
+  static homePage(req, res, next) {
+    res.status(200).render('index.html');
+  }
+
   static getTopScores(req, res, next) {
     const sortedScores = ScoresModel.getTopScores();
 

@@ -30,6 +30,7 @@ describe('ScoresController', () => {
     res = {};
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns(res);
+    res.render = sinon.stub().returns(res);
 
     next = sinon.stub();
 
@@ -49,6 +50,15 @@ describe('ScoresController', () => {
 
   afterEach(() => {
     sinon.restore();
+  });
+
+  describe('#homePage', () => {
+    it('send status code 200 and renders index.html', () => {
+      ScoresController.homePage(req, res, next);
+      
+      expect(res.status).calledOnceWith(200);
+      expect(res.render).calledOnceWith('index.html');
+    });
   });
 
   describe('#getTopScores', () => {

@@ -10,9 +10,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(__dirname));
 
-app.get('/', function(req, res) {
-	res.render('index.html');
-});
+app.get('/', ScoresController.homePage);
 
 app.get('/api/getScores', ScoresController.getTopScores);
 
