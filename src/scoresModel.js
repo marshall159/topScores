@@ -7,14 +7,11 @@ const scoreValues = [
   {name: 'Fiona', points: 5},
 ];
 
-class ScoresModel {
-  constructor(scores = scoreValues) {
-    this.scores = scores;
-  }
 
-  getTopScores() {
-    return this.scores.sort((a, b) => b.points - a.points).slice(0, 5);
-  }
+function getTopScores(scores = scoreValues) {
+  return scores.sort((a, b) => b.points - a.points).slice(0, 5);
 }
 
-module.exports = ScoresModel;
+module.exports = {
+  getTopScores,
+};

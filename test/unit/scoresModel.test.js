@@ -1,11 +1,10 @@
 const { expect } = require('chai');
 
-const ScoresModel = require('../../src/scoresModel');
+const { getTopScores } = require('../../src/scoresModel');
 
-describe('Scores', () => {
+describe('ScoresModel', () => {
   let mockScores;
   let sortedTopFiveScores;
-  let scoresModel;
 
   beforeEach(() => {
     mockScores = [
@@ -25,13 +24,11 @@ describe('Scores', () => {
       {name: 'Elena', points: 4},
     ];
 
-    scoresModel = new ScoresModel(mockScores);
-
   });
 
   describe('#getTopScores', () => {
     it('returns the top five scores in sorted order', () => {
-      const returnedScores = scoresModel.getTopScores();
+      const returnedScores = getTopScores(mockScores);
 
       expect(returnedScores).to.deep.equal(sortedTopFiveScores);
     });
