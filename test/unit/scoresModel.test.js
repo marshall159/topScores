@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 
-const { getTopScores } = require('../../src/scoresModel');
+const { getTopScores, addNewEntry } = require('../../src/scoresModel');
 
 describe('ScoresModel', () => {
   let mockScores;
@@ -33,6 +33,26 @@ describe('ScoresModel', () => {
       const returnedScores = getTopScores(mockScores);
 
       expect(returnedScores).to.deep.equal(sortedTopFiveScores);
+    });
+  });
+
+  describe('#addNewEntry', () => {
+    it('adds a new entry to top scores', () => {
+      const newTopFiveScores = [
+        {name: 'Charles', points: 15},
+        {name: 'Aneel', points: 7},
+        {name: 'Bob', points: 6},
+        {name: 'Aneel', points: 5},
+        {name: 'Fiona', points: 5},
+      ];
+
+      const newEntry = { name: 'Aneel', word: 'racecar' };
+
+      addNewEntry(newEntry);
+
+      const returnedScores = getTopScores();
+
+      expect(returnedScores).to.deep.equal(newTopFiveScores);
     });
   });
 });

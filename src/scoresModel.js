@@ -7,11 +7,26 @@ const scoreValues = [
   {name: 'Fiona', points: 5},
 ];
 
-
 function getTopScores(scores = scoreValues) {
   return scores.sort((a, b) => b.points - a.points).slice(0, 5);
 }
 
+function calculatePoints(word) {
+  return word.length;
+}
+
+function addNewEntry(body) {
+  const points = calculatePoints(body.word);
+
+  const entry = {
+    name: body.name,
+    points,
+  }
+
+  scoreValues.push(entry);
+}
+
 module.exports = {
   getTopScores,
+  addNewEntry,
 };
