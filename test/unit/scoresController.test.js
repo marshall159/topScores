@@ -10,6 +10,7 @@ chai.use(sinonChai);
 const ScoresController = require('../../src/scoresController');
 const ScoresModel = require('../../src/scoresModel');
 const Palindrome = require('../../src/palindrome');
+const Validation =require('../../src/validation');
 
 describe('ScoresController', () => {
   const palindrome = 'racecar';
@@ -21,6 +22,7 @@ describe('ScoresController', () => {
   let sortedTopFiveScores;
   let scoresModelTopScoresStub
   let scoresModelAddNewEntryStub;
+  let validationSpy;
   let palindromeSpy;
 
   beforeEach(() => {
@@ -48,6 +50,8 @@ describe('ScoresController', () => {
 
     scoresModelAddNewEntryStub = sinon.stub(ScoresModel, 'addNewEntry');
     scoresModelAddNewEntryStub.returns(4);
+
+    validationSpy = sinon.spy(Validation, 'hasAllValidParameters');
 
     palindromeSpy = sinon.spy(Palindrome, 'isPalindrome');
   });
@@ -81,15 +85,14 @@ describe('ScoresController', () => {
   });
 
   describe('#validateEntry', () => {
-    it('calls Palindrome#isPalindrome to verify if word is a palindrome', () => {
-      req.body.word = palindrome;
-
+    it('calls Validation to validate entry', () => {
       ScoresController.validateEntry(req, res, next);
-
-      expect(palindromeSpy).calledOnceWith(palindrome);
+      
+      expect(validationSpy).calledOnce;
     });
 
-    it('calls next in the middleware chain if word is a palindrome', () => {
+    it('calls next in the middleware chain if entry is valid', () => {
+      req.body.name = 'Aneel';
       req.body.word = palindrome;
 
       ScoresController.validateEntry(req, res, next);
@@ -97,10 +100,38 @@ describe('ScoresController', () => {
       expect(next).calledOnce;
     });
 
+    it('returns a status 400 and JSON error message if entry is not valid', () => {
+      req.body.name = '';
+      req.body.word = palindrome;
+
+      ScoresController.validateEntry(req, res, next);
+
+      expect(res.status).calledOnceWithExactly(400);
+      expect(res.json).calledOnceWith({ message: 'Entry is not valid' });
+    });
+  });
+
+  describe('#checkPalindrome', () => {
+    it('calls Palindrome#isPalindrome to verify if word is a palindrome', () => {
+      req.body.word = palindrome;
+
+      ScoresController.checkPalindrome(req, res, next);
+
+      expect(palindromeSpy).calledOnceWith(palindrome);
+    });
+
+    it('calls next in the middleware chain if word is a palindrome', () => {
+      req.body.word = palindrome;
+
+      ScoresController.checkPalindrome(req, res, next);
+
+      expect(next).calledOnce;
+    });
+
     it('returns a status 400 and JSON error message if word is not a palindrome', () => {
       req.body.word = notPalindrome;
 
-      ScoresController.validateEntry(req, res, next);
+      ScoresController.checkPalindrome(req, res, next);
 
       expect(res.status).calledOnceWithExactly(400);
       expect(res.json).calledOnceWith({ message: 'Word is not a palindrome' });

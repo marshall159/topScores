@@ -15,7 +15,7 @@ app.get('/', ScoresController.homePage);
 
 app.get('/api/getScores', ScoresController.getTopScores);
 
-app.post('/api/submitEntry', ScoresController.validateEntry, ScoresController.addEntry);
+app.post('/api/submitEntry', ScoresController.checkPalindrome, ScoresController.addEntry);
 
 app.use(ErrorHandler);
 
