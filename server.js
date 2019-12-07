@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const ScoresController = require('./src/scoresController');
+const ValidationController = require('./src/validationController');
 const ErrorHandler = require('./src/errorHandler');
 
 const app = express();
@@ -15,7 +16,7 @@ app.get('/', ScoresController.homePage);
 
 app.get('/api/getScores', ScoresController.getTopScores);
 
-app.post('/api/submitEntry', ScoresController.validateEntry, ScoresController.checkPalindrome, ScoresController.addEntry);
+app.post('/api/submitEntry', ValidationController.validateEntry, ValidationController.checkPalindrome, ScoresController.addEntry);
 
 app.use(ErrorHandler.notFound);
 
