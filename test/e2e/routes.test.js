@@ -5,6 +5,7 @@ const app = require('../../server');
 
 describe('Routes', () => {
   const jsonNotPalindromeMessage = { message: 'Word is not a palindrome' };
+  const entryNotValidMessage = { message: 'Entry is not valid' };
   
   let sortedTopFiveScores;
 
@@ -41,6 +42,18 @@ describe('Routes', () => {
   });
 
   describe('POST /api/submitEntry', () => {
+    it('returns 400 and a JSON message if entry is not valid', () => {
+      return request(app)
+        .post('/api/submitEntry')
+        .set('Accept', 'application/json')
+        .send({ name: '', word: 'car' })
+        .expect('Content-Type', /json/)
+        .expect(400)
+        .then(response => {
+          expect(response.body).to.deep.equal(entryNotValidMessage);
+        })
+    });
+
     it('returns 400 and a JSON message explaining word is not a palindrome', () => {
       return request(app)
         .post('/api/submitEntry')
