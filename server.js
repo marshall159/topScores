@@ -17,6 +17,8 @@ app.get('/api/getScores', ScoresController.getTopScores);
 
 app.post('/api/submitEntry', ScoresController.validateEntry, ScoresController.checkPalindrome, ScoresController.addEntry);
 
-app.use(ErrorHandler);
+app.use(ErrorHandler.notFound);
+
+app.use(ErrorHandler.serverError);
 
 module.exports = app;

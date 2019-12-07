@@ -80,4 +80,19 @@ describe('Routes', () => {
         })
     });
   });
+
+  describe('unknown route', () => {
+    it('returns 404 and a JSON error message', () => {
+      const notFoundMessage = { error: 'Not found' };
+
+      return request(app)
+        .get('/api/')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .then(response => {
+          expect(response.body).to.deep.equal(notFoundMessage);
+        })
+    });
+  });
 });

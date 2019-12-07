@@ -5,7 +5,7 @@ const sinonChai = require('sinon-chai');
 const { expect } = chai;
 chai.use(sinonChai);
 
-const errorHandler = require('../../src/errorHandler');
+const ErrorHandler = require('../../src/errorHandler');
 
 describe('Error Handler', () => {
   let err;
@@ -32,16 +32,28 @@ describe('Error Handler', () => {
     sinon.restore();
   });
 
-  it('logs the error to the console', () => {
-    errorHandler(err, req, res, next);
-
-    expect(consoleStub).calledOnceWith(err);
+  describe('#serverError', () => {
+    it('logs the error to the console', () => {
+      ErrorHandler.serverError(err, req, res, next);
+  
+      expect(consoleStub).calledOnceWith(err);
+    });
+  
+    it('calls res with status code 500 and sends JSON with error message', () => {
+      ErrorHandler.serverError(err, req, res, next);
+  
+      expect(res.status).calledOnceWith(500);
+      expect(res.json).calledOnceWith({ error: 'Server error' });
+    });
   });
 
-  it('calls res with status code 500 and sends JSON with error message', () => {
-    errorHandler(err, req, res, next);
-
-    expect(res.status).calledOnceWith(500);
-    expect(res.json).calledOnceWith({ error: 'Server error' });
+  describe('#notFound', () => {
+    it('calls res with status code 404 and sends JSON with error message', () => {
+      ErrorHandler.notFound(req, res, next);
+  
+      expect(res.status).calledOnceWith(404);
+      expect(res.json).calledOnceWith({ error: 'Not found' });
+    });
   });
+
 });

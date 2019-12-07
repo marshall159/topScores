@@ -1,6 +1,13 @@
-function errorHandler(err, req, res, next) {
+function serverError(err, req, res, next) {
   console.error(err);
-  res.status(500).json({ error: 'Server error' });
+  return res.status(500).json({ error: 'Server error' });
 }
 
-module.exports = errorHandler;
+function notFound(req, res, next) {
+  return res.status(404).json({ error: 'Not found' });
+}
+
+module.exports = {
+  serverError,
+  notFound
+};
