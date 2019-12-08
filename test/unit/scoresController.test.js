@@ -94,5 +94,18 @@ describe('ScoresController', () => {
       expect(res.status).calledOnceWithExactly(200);
       expect(res.json).calledOnceWith({ points: 4 });
     });
+
+    it('calls next with error if ScoresModel.addNewEntry throws', () => {
+      req.body.name = 'Aneel';
+      req.body.word = 'toot';
+
+      const error = new Error('error adding entry');
+
+      scoresModelAddNewEntryStub.throws(error);
+
+      ScoresController.addEntry(req, res, next);
+
+      expect(next).calledOnceWith(error);
+    });
   });
 });

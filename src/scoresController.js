@@ -12,7 +12,13 @@ class ScoresController {
   }
 
   static addEntry(req, res, next) {
-    const points = ScoresModel.addNewEntry(req.body);
+    let points;
+    
+    try {
+      points = ScoresModel.addNewEntry(req.body);
+    } catch (error) {
+      next(error);
+    }
 
     res.status(200).json({ points });
   }
